@@ -47,19 +47,20 @@ export class TransactionsService {
     const otherAccount = await this.accountsRepository.findOne({
       where: {accountID:createTransactionDTO.otherAccount}
     });
-    if(mainAccount.balance < createTransactionDTO.amount){
-      throw new BadRequestException('cannot withdraw, not enough balance ' + 'main Account balance: ' + mainAccount.balance + 
-      ' withdraw amount: ' + createTransactionDTO.amount)
-    }
-    if(otherAccount.balance < createTransactionDTO.amount){
+
+    if(createTransactionDTO.type == "transfer_received"){
+      if(otherAccount.balance < createTransactionDTO.amount){
       throw new BadRequestException('cannot withdraw, not enough balance ' + 'other Account balance: ' + otherAccount.balance + 
       ' withdraw amount: ' + createTransactionDTO.amount)
     }
-    if(createTransactionDTO.type == "transfer_received"){
       mainAccount.balance = mainAccount.balance + createTransactionDTO.amount;
       otherAccount.balance = otherAccount.balance - createTransactionDTO.amount;
     }
     if(createTransactionDTO.type == "transfer_sended"){
+      if(mainAccount.balance < createTransactionDTO.amount){
+        throw new BadRequestException('cannot withdraw, not enough balance ' + 'main Account balance: ' + mainAccount.balance + 
+        ' withdraw amount: ' + createTransactionDTO.amount)
+      }
       mainAccount.balance = mainAccount.balance - createTransactionDTO.amount;
       otherAccount.balance = otherAccount.balance + createTransactionDTO.amount;
     }
@@ -78,6 +79,15 @@ export class TransactionsService {
   findOne(id: number) {
     return `This action returns a #${id} transaction`;
   }
+
+  async findByCustomerID(id: number): Promise<Transactions[]> {
+    console.log(id);
+    
+    return await this.transactionsRepository.find({ 
+      where: [{mainAccount:id},{otherAccount:id}],
+    })
+    };
+  
 
   // update(id: number, updateTransactionDto: UpdateTransactionDto) {
   //   return `This action updates a #${id} transaction`;

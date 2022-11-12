@@ -17,6 +17,11 @@ export class TransactionsController {
     return this.transactionsService.findOne(+id);
   }
 
+  @Get('byuser/:id')
+  findByCustomerID(@Param('id') id:number) {
+    return this.transactionsService.findByCustomerID(id);
+  }
+
   @Post('deposit')
   deposit(@Body() transaction: CreateTransactionDTO) {
     return this.transactionsService.deposit(transaction);

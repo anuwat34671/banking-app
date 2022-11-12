@@ -15,6 +15,14 @@ export class AccountsService {
     return this.accountsRepository.save(createAccountDTO);
   }
 
+  async interestCalculate(id: number) {
+    const account = await this.accountsRepository.findOne({
+      where: { accountID: id }
+    })
+    const interest = (((account.balance * 0.02) * 180)/365);
+    return 'Balance: ' + account.balance + ' || This account have interest at: ' + interest.toFixed(2) + ' ฿';
+  }
+
   findAll(): Promise<Accounts[]> {
     return this.accountsRepository.find();
   }

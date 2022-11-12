@@ -8,8 +8,6 @@ import { Transactions } from './transactions/entities/transaction.entity';
 import { TransactionsModule } from './transactions/transactions.module';
 import { CustomersModule } from './customers/customers.module';
 import { AccountsModule } from './accounts/accounts.module';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -27,8 +25,6 @@ import { UserModule } from './user/user.module';
     TransactionsModule,
     CustomersModule,
     AccountsModule,
-    AuthModule,
-    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

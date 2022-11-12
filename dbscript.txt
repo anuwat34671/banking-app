@@ -49,12 +49,22 @@ ENGINE = InnoDB;
 -- Table `bankingdb`.`transaction`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `bankingdb`.`transaction` (
-  `account_id` INT NOT NULL,
+  `transaction_id` INT NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(45) NOT NULL,
   `amount` INT NOT NULL,
-  INDEX `fk_transaction_accounts1_idx` (`account_id` ASC) VISIBLE,
+  `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `mainAccount` INT NOT NULL,
+  `otherAccount` INT NULL,
+  INDEX `fk_transaction_accounts1_idx` (`mainAccount` ASC) VISIBLE,
+  INDEX `fk_transaction_accounts2_idx` (`otherAccount` ASC) VISIBLE,
+  PRIMARY KEY (`transaction_id`),
   CONSTRAINT `fk_transaction_accounts1`
-    FOREIGN KEY (`account_id`)
+    FOREIGN KEY (`mainAccount`)
+    REFERENCES `bankingdb`.`accounts` (`account_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_transaction_accounts2`
+    FOREIGN KEY (`otherAccount`)
     REFERENCES `bankingdb`.`accounts` (`account_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

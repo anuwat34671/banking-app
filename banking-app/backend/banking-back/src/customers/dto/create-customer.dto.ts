@@ -12,5 +12,5 @@ export class CreateCustomerDTO {
   readonly lastName: string;
 
   @IsNotEmpty()
-  readonly account_id: number;
+  readonly email: string;
 }

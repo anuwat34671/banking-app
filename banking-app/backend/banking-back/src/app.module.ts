@@ -4,10 +4,12 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Customers } from './customers/entities/customer.entity';
 import { Accounts } from './accounts/entities/account.entity';
-import { Transaction } from './transactions/entities/transaction.entity';
+import { Transactions } from './transactions/entities/transaction.entity';
 import { TransactionsModule } from './transactions/transactions.module';
 import { CustomersModule } from './customers/customers.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,13 +20,15 @@ import { AccountsModule } from './accounts/accounts.module';
       username: 'root',
       password: 'Oven.34671',
       database: 'bankingdb',
-      entities: [Customers,Accounts,Transaction],
+      entities: [Customers,Accounts,Transactions],
       synchronize: false,
       autoLoadEntities: true
     }),
     TransactionsModule,
     CustomersModule,
-    AccountsModule
+    AccountsModule,
+    AuthModule,
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

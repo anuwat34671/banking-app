@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity('customers')
-export class Customers {
+export class Customers extends BaseEntity {
   @PrimaryGeneratedColumn({name:'customer_id'})
   customerID: number;
 

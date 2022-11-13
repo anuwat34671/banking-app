@@ -1,4 +1,4 @@
-import { IsNotEmpty, Matches } from "class-validator";
+import { IsNotEmpty, IS_EMAIL, Min, MinLength } from "class-validator";
 
 export class SignUpDTO {
     @IsNotEmpty()
@@ -11,8 +11,6 @@ export class SignUpDTO {
     email: string;
 
     @IsNotEmpty()
-    @Matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,{
-        message: 'Password must be minimum eight characters, at least one letter and one number'
-    })
+    @MinLength(8)
     password: string;
 }

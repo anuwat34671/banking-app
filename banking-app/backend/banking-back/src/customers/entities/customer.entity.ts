@@ -1,11 +1,11 @@
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('customers')
 export class Customers extends BaseEntity {
+  // @OneToMany(type => Accounts, customerID => customerID)
   @PrimaryGeneratedColumn({name:'customer_id'})
-  // customerID: Accounts;
   customerID: number;
+  // customerID: Accounts;
 
   @Column({name:'first_name'})
   firstName: string;

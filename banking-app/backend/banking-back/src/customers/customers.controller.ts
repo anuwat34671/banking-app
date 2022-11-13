@@ -9,15 +9,16 @@ import { Customers } from './entities/customer.entity';
 export class CustomersController {
   constructor(private customersService: CustomersService) {}
 
-  @Post('signup')
-    signUp(@Body() signUpDTO:SignUpDTO): Promise<Customers>{
-      return this.customersService.signUp(signUpDTO);
-    }
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  findAll() {
+    return this.customersService.getAllCustomers();
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOneUser(@Param('id') id: number) {
-    return this.customersService.findOneByID(id);
+    return this.customersService.findByID(id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -26,21 +27,20 @@ export class CustomersController {
     return this.customersService.findByEmail(email);
   }
 
+  @Post('signup')
+  signUp(@Body() signUpDTO:SignUpDTO): Promise<Customers>{
+    return this.customersService.signUp(signUpDTO);
+  }
+  
   @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.customersService.getAllCustomers();
+  @Patch(':id')
+  editCustomer(@Param('id') id: number, @Body() updateCustomerDTO: UpdateCustomerDTO) {
+    return this.customersService.update(+id, updateCustomerDTO);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.customersService.remove(+id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Patch(':id')
-  editCustomer(@Param('id') id: number, @Body() updateCustomerDTO: UpdateCustomerDTO) {
-    return this.customersService.update(+id, updateCustomerDTO);
   }
 }

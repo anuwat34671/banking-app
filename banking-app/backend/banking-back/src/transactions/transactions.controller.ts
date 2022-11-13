@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards, BadRequestException } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDTO } from './dto/create-transaction.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guards';
@@ -15,37 +15,29 @@ export class TransactionsController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.transactionsService.findOne(+id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('byuser/:id')
-  findByCustomerID(@Param('id') id:number) {
-    return this.transactionsService.findByCustomerID(id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('deposit')
-  deposit(@Body() transaction: CreateTransactionDTO) {
-    return this.transactionsService.deposit(transaction);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('withdraw')
-  withdraw(@Body() transaction: CreateTransactionDTO) {
-    return this.transactionsService.withdraw(transaction);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('transfer')
-  transfer(@Body() transaction: CreateTransactionDTO) {
-    return this.transactionsService.transfer(transaction);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get(':id')
   findOneTransaction(@Param('id') id: string) {
-    return this.transactionsService.findOne(+id);
+    return this.transactionsService.findByID(+id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('byaccount/:id')
+  findByCustomerID(@Param('id') id:number) {
+    return this.transactionsService.findByAccountID(id);
+  }
+  
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  action(@Body() transaction: CreateTransactionDTO){
+    if(transaction.type == "deposit"){
+      return this.transactionsService.deposit(transaction);
+    }
+    if(transaction.type == "withdraw"){
+      return this.transactionsService.withdraw(transaction);
+    }
+    if(transaction.type == "transfer"){
+      return this.transactionsService.transfer(transaction);
+    } else {
+      throw new BadRequestException("Action not match with any type. Please try again.");
+    }
   }
 }

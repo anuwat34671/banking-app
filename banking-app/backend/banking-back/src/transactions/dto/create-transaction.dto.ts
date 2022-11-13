@@ -1,8 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 export class CreateTransactionDTO {
-    @IsNotEmpty()
+
     readonly transactionID: number;
-  
+    
     @IsNotEmpty()
     readonly type: string;
   
@@ -12,9 +12,7 @@ export class CreateTransactionDTO {
     @IsNotEmpty()
     readonly mainAccount: number;
 
-    @IsNotEmpty()
     readonly otherAccount: number;
 
-    @IsNotEmpty()
     readonly time: string;
 }

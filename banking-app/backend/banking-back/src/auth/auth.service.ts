@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CustomersService } from 'src/customers/customers.service';
-import { Customers } from 'src/customers/entities/customer.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 

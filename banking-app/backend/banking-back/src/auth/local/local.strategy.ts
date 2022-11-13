@@ -16,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     const user = await this.authService.validateUser(email, password);
     if (!user) {
       throw new UnauthorizedException({
-          message: ['No authorization found for this email: Wrong email or password ' + email],
+          message: ['No authorization found for this email: Wrong email or password.'],
       });
     }
     return user;

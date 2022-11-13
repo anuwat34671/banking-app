@@ -75,10 +75,10 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-insert into customers
-values(1,"Anuwat","Pattanajan","anuwat.34671@mail.kmutt.ac.th","Oven.34671"),
-(2,"Nutchanon","Assawachin","Nuchanon.nine@mail.kmutt.ac.th","dsa1150456"),
-(3,"Siripong","Phiwkhaw","siripong.nut@mail.kmutt.ac.th","spectertv6653");
+insert into customers values(1,"Anuwat","Pattanajan","anuwat.34671@mail.kmutt.ac.th","$2b$15$s1dRr5Nan1Ic3GyhjwnSjubJr.7hxHLki6hqXeCehfOg/V2eqMf5e"),
+(2,"Angela","Mcmanus","angela.mc@mail.kmutt.ac.th","$2b$15$FvkQwgttNnnw3jRqT7cIGOAIPK72HvTpAi1fUE2Bt6oqsaio473Cm"),
+(3,"Donna","Lake","donna@gmail.com","$2b$15$FmCQl94Sq3y0sJHQPewOYuB33QX.SVluPYIfE/iYJWRqxAW3mKs6q"),
+(4,"Eric","Hoover","eric.2525@hotmail.com","$2b$15$NTfgPK2j7C9NOoAK0nOxreikm0abCCjzikGIwBiYE05mZBYNS/qPC");
 
 insert into accounts
-values(1,1500,3),(2,35000,2),(3,10000,1),(4,25000,3);
+values(1,15000,3),(2,20000,4),(3,1000,1),(4,500,3),(5,750,1),(6,25000,2);

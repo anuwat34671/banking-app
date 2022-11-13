@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Customers } from './entities/customer.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,7 +20,7 @@ export class CustomersService {
       const customer = this.customersRepository.create({ firstName, lastName, email, password:hashPwd })
       return await this.customersRepository.save(customer);
     } catch(e) {
-      throw new ConflictException("Username has been already used.")
+      throw new BadRequestException("Cannot create customer. Please check data again.")
     }
   }
 
@@ -30,7 +30,7 @@ export class CustomersService {
     return a;
   }
 
-  findOneByID(id: number) {
+  findByID(id: number) {
     return this.customersRepository.findOne({ where: {customerID: id}});
   }
 
@@ -50,7 +50,7 @@ export class CustomersService {
   }
 
   async update(id: number, updateCustomerDTO: UpdateCustomerDTO): Promise<Customers> {
-    const editedCustomer = await this.findOneByID(id);
+    const editedCustomer = await this.findByID(id);
     if (editedCustomer == null) {
       throw new NotFoundException('Customer ID #' + id + ' is not found');
     } else {

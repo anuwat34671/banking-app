@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { AuthController } from './auth/auth.controller';
+import { CustomersService } from './customers/customers.service';
 
 @Module({
   imports: [

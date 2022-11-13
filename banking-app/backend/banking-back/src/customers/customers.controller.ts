@@ -1,34 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guards';
 import { CustomersService } from './customers.service';
-import { CreateCustomerDTO } from './dto/create-customer.dto';
+import { SignUpDTO } from './dto/signup-dto';
 import { UpdateCustomerDTO } from './dto/update-customer.dto';
+import { Customers } from './entities/customer.entity';
 
-@Controller('/customers')
+@Controller('customers')
 export class CustomersController {
-  constructor(private readonly customersService: CustomersService) {}
+  constructor(private customersService: CustomersService) {}
 
-  @Post()
-  create(@Body() createCustomer: CreateCustomerDTO) {
-    return this.customersService.create(createCustomer);
-  }
+  @Post('signup')
+    signUp(@Body() signUpDTO:SignUpDTO): Promise<Customers>{
+      return this.customersService.signUp(signUpDTO);
+    }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.customersService.findOne(+id);
+  findOneUser(@Param('id') id: number) {
+    return this.customersService.findOneByID(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('/byemail/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.customersService.findByEmail(email);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
-    return this.customersService.findAll();
+    return this.customersService.getAllCustomers();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.customersService.remove(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCustomerDTO: UpdateCustomerDTO) {
+  editCustomer(@Param('id') id: number, @Body() updateCustomerDTO: UpdateCustomerDTO) {
     return this.customersService.update(+id, updateCustomerDTO);
   }
 }

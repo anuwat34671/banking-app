@@ -4,8 +4,6 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Transactions } from './entities/transaction.entity';
 import { Accounts } from 'src/accounts/entities/account.entity';
-import { AccountsService } from 'src/accounts/accounts.service';
-// import { UpdateTransactionDto } from './dto/update-transaction.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -47,24 +45,15 @@ export class TransactionsService {
     const otherAccount = await this.accountsRepository.findOne({
       where: {accountID:createTransactionDTO.otherAccount}
     });
-
-    if(createTransactionDTO.type == "transfer_received"){
-      if(otherAccount.balance < createTransactionDTO.amount){
-      throw new BadRequestException('cannot withdraw, not enough balance ' + 'other Account balance: ' + otherAccount.balance + 
+    
+    if(mainAccount.balance < createTransactionDTO.amount){
+      throw new BadRequestException('cannot transfer, not enough balance || ' + 'main Account balance: ' + mainAccount.balance + 
       ' withdraw amount: ' + createTransactionDTO.amount)
     }
-      mainAccount.balance = mainAccount.balance + createTransactionDTO.amount;
-      otherAccount.balance = otherAccount.balance - createTransactionDTO.amount;
-    }
-    if(createTransactionDTO.type == "transfer_sended"){
-      if(mainAccount.balance < createTransactionDTO.amount){
-        throw new BadRequestException('cannot withdraw, not enough balance ' + 'main Account balance: ' + mainAccount.balance + 
-        ' withdraw amount: ' + createTransactionDTO.amount)
-      }
-      mainAccount.balance = mainAccount.balance - createTransactionDTO.amount;
-      otherAccount.balance = otherAccount.balance + createTransactionDTO.amount;
-    }
-
+    
+    mainAccount.balance = mainAccount.balance - createTransactionDTO.amount;
+    otherAccount.balance = otherAccount.balance + createTransactionDTO.amount;
+    
     this.accountsRepository.save(mainAccount);
     this.accountsRepository.save(otherAccount);
 
@@ -85,15 +74,6 @@ export class TransactionsService {
     
     return await this.transactionsRepository.find({ 
       where: [{mainAccount:id},{otherAccount:id}],
-    })
-    };
-  
-
-  // update(id: number, updateTransactionDto: UpdateTransactionDto) {
-  //   return `This action updates a #${id} transaction`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} transaction`;
-  // }
+    });
+  }
 }

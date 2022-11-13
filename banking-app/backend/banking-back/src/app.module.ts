@@ -8,6 +8,10 @@ import { Transactions } from './transactions/entities/transaction.entity';
 import { TransactionsModule } from './transactions/transactions.module';
 import { CustomersModule } from './customers/customers.module';
 import { AccountsModule } from './accounts/accounts.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth/auth.service';
+import { JwtService } from '@nestjs/jwt';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -25,8 +29,9 @@ import { AccountsModule } from './accounts/accounts.module';
     TransactionsModule,
     CustomersModule,
     AccountsModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService, JwtService],
 })
 export class AppModule {}

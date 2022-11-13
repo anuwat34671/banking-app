@@ -21,7 +21,8 @@ CREATE TABLE IF NOT EXISTS `bankingdb`.`customers` (
   `customer_id` INT NOT NULL AUTO_INCREMENT,
   `first_name` VARCHAR(60) NOT NULL,
   `last_name` VARCHAR(60) NOT NULL,
-  `email` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL UNIQUE,
+  `password` VARCHAR(90) NOT NULL,
   PRIMARY KEY (`customer_id`),
   UNIQUE INDEX `cust_id_UNIQUE` (`customer_id` ASC) VISIBLE)
 ENGINE = InnoDB;
@@ -70,7 +71,14 @@ CREATE TABLE IF NOT EXISTS `bankingdb`.`transaction` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+insert into customers
+values(1,"Anuwat","Pattanajan","anuwat.34671@mail.kmutt.ac.th","Oven.34671"),
+(2,"Nutchanon","Assawachin","Nuchanon.nine@mail.kmutt.ac.th","dsa1150456"),
+(3,"Siripong","Phiwkhaw","siripong.nut@mail.kmutt.ac.th","spectertv6653");
+
+insert into accounts
+values(1,1500,3),(2,35000,2),(3,10000,1),(4,25000,3);
